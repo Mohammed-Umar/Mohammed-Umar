@@ -33,6 +33,8 @@ export default class TodoApp {
     this.itemCls = itemCls;
     this.appendItem = this.appendItem.bind(this);
     this.onAddClicked = this.onAddClicked.bind(this);
+    // Following code added by : Mohammed Umar
+    this.addOnEnter = this.addOnEnter.bind(this); 
   }
 
   render(container) {
@@ -45,8 +47,18 @@ export default class TodoApp {
     container.appendChild(el);
     this.container = container;
     this.list.map(this.appendItem);
+    // Following line added by : Mohammed Umar
+    this.bindOnEnter();
     this.bind();
     return this.container;
+  }
+
+  /*
+  * This function will call addOnEnter function on every "keyup".
+  * Added by : Mohammed Umar
+  */
+  bindOnEnter() {
+    this.input.addEventListener("keyup", this.addOnEnter);
   }
 
   bind() {
@@ -59,6 +71,17 @@ export default class TodoApp {
     }
     const item = new this.itemCls(task);
     this.listContainer.appendChild(item.render());
+  }
+
+  /*
+  * This function will check if the keyup on input tag is enter.
+  * Added by : Mohammed Umar
+  */
+  addOnEnter(e) {
+    e.preventDefault();
+    if (e.keyCode === 13) {
+      this.button.click();
+    }
   }
 
   onAddClicked(e) {
